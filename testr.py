@@ -90,25 +90,4 @@ if __name__ == '__main__':
         mul_test()
         div_test()
 
-
-        def first_approximation(x):
-            mantissa = x.get_mantissa()
-            first_chank = mantissa[-1]
-            second_chank = mantissa[-2] if len(mantissa) > 1 else 0
-            if second_chank != 0:
-                approximation = 1 / ((first_chank * 10 ** BASE + second_chank) ** 0.5)
-                approximation = str_to_BF(f'{approximation:.50f}')
-                if (x.get_exp() + BASE * len(mantissa)) % 2 == 0:
-                    new_exp = approximation.get_exp() - (x.get_exp() + BASE * (len(mantissa) - 2)) // 2
-                else:
-                    new_exp = approximation.get_exp() - (x.get_exp() + BASE * (len(mantissa) - 2)) // 2 - 1
-            else:
-                approximation = 1 / (first_chank ** 0.5)
-                approximation = f'{approximation:.50f}'
-                approximation = str_to_BF(approximation)
-                new_exp = approximation.get_exp() - x.get_exp() // 2
-            approximation.set_exp(new_exp)
-            approximation.set_sign(1)
-            if x.get_exp() % 2 == 1:
-                approximation = mul(approximation, ROOT_OF_10)
-            return approximation
+n
