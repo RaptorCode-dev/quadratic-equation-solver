@@ -1,0 +1,13 @@
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+nonzero_digit = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+sign = "+" | "-";
+dot = "." | ",";
+exp = "e" | "E";
+zero = "0"
+
+int = (nonzero_digit, {digit}) | zero;
+signed_int = [sign], int;
+exponent = exp, signed_int;
+frac = dot, digit, [exponent];
+float = [sign], [int], frac;
+
