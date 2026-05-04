@@ -66,10 +66,8 @@ def normalize(a):
 def fft_iter(a, invert=False):
     bit_reverse_permute(a)
     fft_core(a, invert)
-
     if invert:
         normalize(a)
-
     return a
 
 
@@ -98,7 +96,7 @@ def make_carrys_after_mul(mantissa):
     return mantissa
 
 
-def mul(a: BigFloat, b: BigFloat, precision=2040) -> BigFloat:
+def mul(a: BigFloat, b: BigFloat, precision=2050) -> BigFloat:
     sign = a.sign * b.sign
     exp = a.exp + b.exp
     res = convolve_fft(a.mantissa, b.mantissa)
@@ -121,7 +119,7 @@ def short_mul(number, integ, exp_delta=0):
 if __name__ == "__main__":
     getcontext().prec = 50000
 
-    for i in range(5):
+    for i in range(10):
         a = random_BF()
         b = random_BF()
 

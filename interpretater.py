@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 from class_1 import BigFloat, BASE
-import sys
 
 
 def fail(msg):
     print(msg)
-    sys.exit(1)
+    exit()
 
 
 def find_sep(text):

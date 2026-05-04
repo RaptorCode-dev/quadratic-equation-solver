@@ -13,27 +13,28 @@ def sqrt_bigfloat(n):
     approximation = first_approximation(x)
     inv_sqrt = newton_reciprocal(x, approximation)
     result = mul(x, inv_sqrt)
-    if n.get_exp() % 2 == 1:
-        result = mul(result, root_10)
     return result
 
 
 def first_approximation(x):
     mant = x.get_mantissa()
 
-    top = (mant[-1] if len(mant) == 1 else mant[-1] * 10**BASE + mant[-2])
+    top = mant[-1] * 10**BASE + (mant[-2] if len(mant) >= 2 else 0)
     approx = 1 / top ** 0.5
-    approx = f'{approx:.20f}'
+    approx = f'{approx:.50f}'
     approx = str_to_BF(approx)
 
-    if (x.get_exp() + BASE * len(mant)) % 2 == 0:
+    total_parity = (x.get_exp() + BASE * len(mant)) % 2
+    if total_parity == 0:
         new_exp = approx.get_exp() - (x.get_exp() + BASE * (len(mant) - 2)) // 2
     else:
         new_exp = approx.get_exp() - (x.get_exp() + BASE * (len(mant) - 2)) // 2 - 1
 
-
     approx.set_exp(new_exp)
     approx.set_sign(1)
+
+    if total_parity == 1:
+        approx = mul(approx, root_10)
 
     return approx
 
@@ -44,17 +45,17 @@ def newton_reciprocal(x, guess, iterations=11):
     for _ in range(iterations):
         precision <<= 1
         num = BF_round(x, precision + 10)
-        yn = mul(mul(guess, guess, precision + 20), num, precision + 10)
+        yn = mul(mul(guess, guess, precision + 20), num, precision + 20)
         yn = short_mul(sub(constant_newton, yn), 5, -1)
-        guess = mul(guess, yn, precision + 10)
+        guess = mul(guess, yn, precision + 20)
 
     return guess
 
 
 if __name__ == '__main__':
-    getcontext().prec = 10000
+    getcontext().prec = 100000
 
-    for i in range(5):
+    for i in range(100):
         a = random_BF()
         a.set_sign(1)
 
@@ -65,7 +66,7 @@ if __name__ == '__main__':
         bf_str = BF_to_str(res)
 
         dec_val = Decimal(BF_to_str(a)).sqrt()
-        dec_str = format(dec_val, 'f')
+        dec_str = f'{dec_val:.15000f}'
 
         ok = bf_str[:10000] == dec_str[:10000]
 

@@ -23,12 +23,6 @@ class Solution:
         self.x1 = x1
         self.x2 = x2
 
-
-999999999
-
-
-
-
 BASE = 5
 class BigFloat:
     __slots__ = ('exp', 'mantissa', 'sign')
@@ -196,7 +190,7 @@ def random_BF():
     for _ in range(prec):
         elem = randrange(10000, 100000)
         mantissa.append(elem)
-    sign = 1
+    sign = choice([-1, 1])
     return normalized(BigFloat(exp, mantissa, sign))
 
 def BF_round(num, precision):
