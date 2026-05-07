@@ -206,3 +206,8 @@ def BF_round(num, precision):
 
 def int_to_BF(number):
     return str_to_BF(str(number))
+
+if __name__ == '__main__':
+    print(BF_to_str(random_BF()), end=' ')
+    print(BF_to_str(random_BF()), end=' ')
+    print(BF_to_str(random_BF()))

@@ -1,5 +1,5 @@
 from mul import mul, short_mul
-from class_1 import BASE, BF_round, BF_to_str,BigFloat,  random_BF, str_to_BF, int_to_BF, copy_BF
+from class_1 import BASE, BF_round, BF_to_str,BigFloat,  random_BF, str_to_BF, copy_BF
 from AddandSub import sub
 
 from decimal import Decimal, getcontext
@@ -12,8 +12,7 @@ def sqrt_bigfloat(n):
     x = copy_BF(n)
     approximation = first_approximation(x)
     inv_sqrt = newton_reciprocal(x, approximation)
-    result = mul(x, inv_sqrt)
-    return result
+    return mul(x, inv_sqrt)
 
 
 def first_approximation(x):
