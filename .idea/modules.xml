@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Square.iml" filepath="$PROJECT_DIR$/.idea/Square.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PyCharmMiscProject/длинная арифметика 2.5/.idea/длинная арифметика 2.5.iml" filepath="$PROJECT_DIR$/../PyCharmMiscProject/длинная арифметика 2.5/.idea/длинная арифметика 2.5.iml" />
     </modules>
   </component>
 </project>
