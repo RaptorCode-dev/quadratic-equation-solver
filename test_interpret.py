@@ -2,7 +2,7 @@ from decimal import Decimal, getcontext
 import pytest
 
 from interpretater import NumberParser
-from class_1 import random_BF, BF_to_str
+from helper import random_BF, BF_to_str
 
 
 @pytest.mark.parametrize("value", [
@@ -23,6 +23,11 @@ from class_1 import random_BF, BF_to_str
     "0e3",
     "-1.5e+10",
     "-.3e3",
+    "inf",
+    "-inf",
+    "nan",
+    "1_000",
+    "-5_000",
 ])
 def test_valid_numbers(value):
     result = NumberParser(value).interpret()
@@ -53,6 +58,9 @@ def test_valid_numbers(value):
     "1.2.3",
     "-1-2-3",
     "00e3",
+    "_5",
+    "5__0"
+    "5_"
 ])
 def test_invalid_numbers(value):
     with pytest.raises(SystemExit):

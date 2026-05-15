@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from class_1 import BigFloat, BASE
+from helper import make_inf, make_nan
 
 
 def fail(msg):
@@ -19,6 +20,24 @@ def find_exp(text):
         if ch in text:
             return text.index(ch)
     return -1
+
+
+def strip_underscores(text):
+    if '_' not in text:
+        return text
+    out = []
+    for i, ch in enumerate(text):
+        if ch == '_':
+            if i == 0 or i == len(text) - 1:
+                fail("Ошибка: '_' в начале или конце числа")
+            if not text[i - 1].isdigit() or not text[i + 1].isdigit():
+                fail("Ошибка: '_' должен стоять между цифрами")
+            continue
+        out.append(ch)
+    return ''.join(out)
+
+INF_NAMES = {'inf', 'infinity'}
+NAN_NAMES = {'nan'}
 
 
 class Interpreter(ABC):
@@ -66,6 +85,15 @@ class NumberParser(Interpreter):
             fail("Пустая строка")
 
         sign, core = self.parse_sign(self.text)
+
+        core_lower = core.lower()
+        if core_lower in INF_NAMES:
+            return make_inf(sign)
+        if core_lower in NAN_NAMES:
+            return make_nan()
+
+        core = strip_underscores(core)
+
         mant, exp_part = self.split_exp(core)
 
         exp = ExponentParser(exp_part).interpret()

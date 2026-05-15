@@ -1,9 +1,6 @@
-from class_1 import BigFloat, BASE, BF_to_str, normalized, random_BF, BF_round
+from class_1 import BigFloat, BASE
+from helper import normalized, BF_round
 import math
-from decimal import Decimal, getcontext
-from time import perf_counter
-
-getcontext().prec = 100000
 
 BASE_LIMIT = 10 ** BASE
 
@@ -125,27 +122,4 @@ def short_mul(number, integ, exp_delta=0):
     mantissa = make_carrys_after_mul(mantissa)
     sign = number.get_sign() * (1 if integ > 0 else -1)
     return BigFloat(number.get_exp() + exp_delta, mantissa, sign)
-
-
-if __name__ == "__main__":
-    getcontext().prec = 50000
-    a, b = random_BF(), random_BF()
-    mul(a, b)
-
-    times = []
-    for i in range(100):
-        a = random_BF()
-        b = random_BF()
-        t1 = perf_counter()
-        res = mul(a, b)
-        t2 = perf_counter()
-        times.append(t2 - t1)
-
-        re = Decimal(BF_to_str(b)) * Decimal(BF_to_str(a))
-        re = f'{re:.10000f}'
-        bf = BF_to_str(res)
-        print(f"OK: {bf[:10000] == re[:10000]}  TIME: {t2 - t1:.4f}s")
-
-    times.sort()
-    print(f"\nmedian={times[len(times)//2]:.4f}s, min={times[0]:.4f}s, mean={sum(times)/len(times):.4f}s")
 

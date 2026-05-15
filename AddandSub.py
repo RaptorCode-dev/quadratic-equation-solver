@@ -1,10 +1,7 @@
-from class_1 import BigFloat, BASE, normalized, copy_BF, BF_to_str, random_BF
+from class_1 import BigFloat, BASE
+from helper import normalized, copy_BF
 from mul import short_mul
-from decimal import Decimal, getcontext
 
-from time import perf_counter
-
-getcontext().prec = 100000
 
 def add(a, b):
     a, b = align(copy_BF(a), copy_BF(b))
@@ -77,16 +74,16 @@ def subtract_mantissas(minuend, subtrahend):
         minuend[i] -= subtrahend[i] + borrow
         borrow = 0
         if minuend[i] < 0:
-            minuend[i] += 10**BASE
+            minuend[i] += 10 ** BASE
             borrow = 1
     if borrow:
         i = len(subtrahend)
         while i < len(minuend) - 1 and minuend[i] == 0:
             minuend[i] = 99999
             i += 1
-        try:
+        if i < len(minuend):
             minuend[i] -= 1
-        except IndexError:
+        else:
             return [0]
     return minuend
 
@@ -99,23 +96,3 @@ def mantissa_ge(a, b):
         if ma[i] != mb[i]:
             return ma[i] > mb[i]
     return True
-
-
-if __name__ == "__main__":
-    t_fft = 0
-    for _ in range(50):
-        a = random_BF()
-        b = random_BF()
-
-        expected = Decimal(BF_to_str(a)) - Decimal(BF_to_str(b))
-        expected = f'{expected:.50000f}'
-
-        start = perf_counter()
-        result = BF_to_str(sub(a, b))
-        t_fft += perf_counter() - start
-
-        print(expected[:10000])
-        print(result[:10000])
-
-        print(expected[:10000] == result[:10000])
-    print("sub:", t_fft / 50)

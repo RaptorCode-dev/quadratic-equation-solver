@@ -1,9 +1,8 @@
 from mul import mul
-from class_1 import BASE, BF_round, BF_to_str, random_BF, int_to_BF, BigFloat
+from class_1 import BASE, BigFloat
+from helper import BF_round, int_to_BF
 from AddandSub import sub
 
-from decimal import Decimal, getcontext
-from time import perf_counter
 
 TWO = BigFloat(0, [2], 1)
 
@@ -44,25 +43,3 @@ def newton_reciprocal(x, guess, iterations=11):
         guess = mul(guess, correction, precision + 20)
 
     return guess
-
-
-if __name__ == '__main__':
-    getcontext().prec = 50000
-
-    for _ in range(10):
-        a = random_BF()
-        b = random_BF()
-
-        expected = Decimal(BF_to_str(a)) / Decimal(BF_to_str(b))
-        expected = f'{expected:.10000f}'
-
-        t1 = perf_counter()
-        result = div(a, b)
-        t2 = perf_counter()
-
-        result_str = BF_to_str(result)
-
-        print("OK:", result_str[:10000] == expected[:10000])
-        print("TIME:", t2 - t1)
-        print("EXPECTED:", expected[:10000])
-        print("RESULT  :", result_str[:10000])

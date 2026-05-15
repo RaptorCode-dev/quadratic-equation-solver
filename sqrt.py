@@ -1,9 +1,7 @@
 from mul import mul, short_mul
-from class_1 import BASE, BF_round, BF_to_str,BigFloat,  random_BF, str_to_BF, copy_BF
+from class_1 import BASE, BigFloat
 from AddandSub import sub
-
-from decimal import Decimal, getcontext
-from time import perf_counter
+from helper import BF_round, str_to_BF, copy_BF
 
 root_10 = BigFloat(-18, [79331, 1683, 27766, 3162], 1)
 constant_newton = BigFloat(0, [3], 1)
@@ -49,35 +47,3 @@ def newton_reciprocal(x, guess, iterations=11):
         guess = mul(guess, yn, precision + 20)
 
     return guess
-
-
-if __name__ == '__main__':
-    getcontext().prec = 100000
-
-    for i in range(100):
-        a = random_BF()
-        a.set_sign(1)
-
-        t1 = perf_counter()
-        res = sqrt_bigfloat(a)
-        t2 = perf_counter()
-
-        bf_str = BF_to_str(res)
-
-        dec_val = Decimal(BF_to_str(a)).sqrt()
-        dec_str = f'{dec_val:.15000f}'
-
-        ok = bf_str[:10000] == dec_str[:10000]
-
-        print(f"TEST {i + 1}:")
-        print("OK:", ok)
-        print("TIME:", t2 - t1)
-
-        if not ok:
-            print("INPUT   :", BF_to_str(a)[:200])
-            print("EXP   :", a.exp)
-            print("LEN   :", len(a.mantissa))
-            print("EXPECTED:", dec_str[:200])
-            print("RESULT  :", bf_str[:200])
-
-        print("-" * 50)
