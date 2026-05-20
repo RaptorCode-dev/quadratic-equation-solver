@@ -4,13 +4,13 @@ sign = "+" | "-";
 dot = "." | ",";
 exp = "e" | "E";
 zero = "0"
-nan = "nan"
-infinity = "Infinity" | "inf"
+nan = ("n" | "N"), ("a" | "A"), ("n" | "N");
+inf = ("i" | "I"), ("n" | "N"), ("f" | "F"), [("i" | "I"), ("n" | "N"), ("i" | "I"), ("t" | "T"), ("y" | "Y")];
 under_score = "_"
 
-int = (nonzero_digit, {[under-score], digit}) | zero;
+int = (nonzero_digit, {[under_score], digit}) | zero;
 signed_int = [sign], int;
 exponent = exp, signed_int;
-frac = dot, [digit, {digit}, {[under-score], digit}, {digit}], [exponent];
+frac = dot, [digit, {digit}, {[under_score], digit}, {digit}], [exponent];
 float = [sign], [int], frac;
 

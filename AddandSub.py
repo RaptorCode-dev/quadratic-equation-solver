@@ -45,10 +45,13 @@ def aligned_sub(a, b):
     ma, mb = a.get_mantissa(), b.get_mantissa()
     sign = a.get_sign()
     if mantissa_ge(a, b):
-        result = subtract_mantissas(ma, mb)
+        minuend, subtrahend = ma[:], mb[:]
     else:
-        result = subtract_mantissas(mb, ma)
+        minuend, subtrahend = mb[:], ma[:]
         sign = -sign
+    if len(minuend) < len(subtrahend):
+        minuend = minuend + [0] * (len(subtrahend) - len(minuend))
+    result = subtract_mantissas(minuend, subtrahend)
     return BigFloat(a.get_exp(), result, sign)
 
 
@@ -90,9 +93,15 @@ def subtract_mantissas(minuend, subtrahend):
 
 def mantissa_ge(a, b):
     ma, mb = a.get_mantissa(), b.get_mantissa()
-    if len(ma) != len(mb):
-        return len(ma) > len(mb)
-    for i in range(len(ma) - 1, -1, -1):
+    eff_a = len(ma)
+    while eff_a > 0 and ma[eff_a - 1] == 0:
+        eff_a -= 1
+    eff_b = len(mb)
+    while eff_b > 0 and mb[eff_b - 1] == 0:
+        eff_b -= 1
+    if eff_a != eff_b:
+        return eff_a > eff_b
+    for i in range(eff_a - 1, -1, -1):
         if ma[i] != mb[i]:
             return ma[i] > mb[i]
     return True

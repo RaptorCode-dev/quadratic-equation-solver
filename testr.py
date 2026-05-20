@@ -6,7 +6,7 @@ from div import div
 from sqrt import sqrt_bigfloat
 from solve import solve
 
-from decimal import Decimal, getcontext, localcontext
+from decimal import Decimal, getcontext
 from time import perf_counter
 
 
